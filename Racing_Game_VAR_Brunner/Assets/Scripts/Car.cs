@@ -7,6 +7,7 @@ public class Car : MonoBehaviour
     public float acceleration = 1;
     public float steering = 1;
     Rigidbody rigid;
+    public bool canDrift;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +22,16 @@ public class Car : MonoBehaviour
         rigid.AddForce(transform.forward * verticalInput * acceleration * Time.deltaTime);      
         transform.Rotate(Vector3.up, horizontalInput * steering * Time.deltaTime);
 
-        Vector3 velocity = rigid.velocity;
-        velocity = transform.forward * velocity.magnitude;
-        rigid.velocity = velocity;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            canDrift = !canDrift;
+        }
+
+        if (canDrift == false)
+        {
+            Vector3 velocity = rigid.velocity;
+            velocity = transform.forward * velocity.magnitude;
+            rigid.velocity = velocity;
+        }
     }
 }
